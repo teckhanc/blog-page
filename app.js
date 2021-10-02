@@ -56,11 +56,35 @@ app.get("/post/:postId", function(req, res) {
   posts.forEach(function(post) {
     let y = _.toNumber(post.postId);
     if (y === x) {
-      res.render("post", {title: post.title, content: post.content, createdAt: post.created})
+      res.render("post", {title: post.title, content: post.content, createdAt: post.created, postId: post.postId})
     } else {
       console.log("link not found");
     }
   });
+})
+
+app.get("/edit/:postId", function(req, res) {
+  let x = _.toNumber(req.params.postId);
+  posts.forEach(function(post) {
+    let y = _.toNumber(post.postId);
+    if (y === x) {
+      res.render("edit", {title: post.title, content: post.content, postId: post.postId})
+    }
+  })
+})
+
+app.post("/edit/:postId", function(req, res) {
+  let x = _.toNumber(req.params.postId);
+  posts.forEach(function(post) {
+    let y = _.toNumber(post.postId);
+    if (y === x) {
+      let v = req.body.postTitle
+      let w = req.body.postContent
+      post.title = v;
+      post.content = w;
+      res.redirect("/post/" + y);
+    }
+  })
 })
 
 
